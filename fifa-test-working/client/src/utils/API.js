@@ -29,6 +29,8 @@ export default {
 
   removePlayerFromTeam: (userId, playerId) => (axios.post('/removeplayerfromteam', {uid: userId, pid: playerId})),
 
+  playMatch: (userId, opponentId) => (axios.post('/playmatch', {uid: userId, oid: opponentId })),
+
   // Saves a book to the database
   saveMessage: msg => ( axios.post('/messages', msg) ),
 

@@ -103,14 +103,38 @@ module.exports = app => {
 
   app.post('/players', async function(req, res) {
     const { name } = req.body
+    const strength = Math.floor(Math.random() * 10);  
     try {
-      const player = await db.Player.create({ name })
+      const player = await db.Player.create({ name, strength })
       res.json(player)
     }
     catch (err) {
       console.log('Error creating player: ', err)
       res.status(500).send('Error creating player')
     }
+  })
+
+  app.post('/playmatch', async function(req, res) {
+      const { uid, oid } = req.body
+      const me = await db.User.findOne({ where: { id: uid }})
+      const them = await db.User.findOne({ where: { id: oid }})
+      const myTeam = await me.getTeam()
+      const opTeam = await them.getTeam()
+      const myPlayers = await myTeam.getPlayers();
+      const opPlayers = await opTeam.getPlayers();
+      var myStrength = 0;
+      var opStrength = 0;
+      for (var i = 0; i < 5; i++)  {
+          myStrength += myPlayers[i].strength;
+          opStrength += opPlayers[i].strength;
+      } 
+      if (myStrength > opStrength) {
+        res.json({won: true})
+      }
+      else {
+        res.json({won: false})
+      }
+
   })
 
   app.get('/myplayers/:uid', async function(req, res) {

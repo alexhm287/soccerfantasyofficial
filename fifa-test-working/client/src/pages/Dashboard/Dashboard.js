@@ -19,7 +19,8 @@ class Dashboard extends Component {
       users: [],
       players: [],
       myPlayers: [],
-      team: {}
+      team: {},
+      matchScore: "You havn't played any matches yet!"
   };
 
   componentDidMount() {
@@ -32,6 +33,11 @@ class Dashboard extends Component {
         console.log("Added player to team");
         this.updatePlayers()
     })
+  }
+
+  updateMatchScore(score, matches) {
+    var ms = "You won " + score + " out of " + matches + " matches."
+    this.setState({matchScore: ms})
   }
 
   removePlayer(playerId) {
@@ -87,6 +93,9 @@ class Dashboard extends Component {
         return (
           <Container fluid>
             <Row>
+              {this.state.matchScore}
+            </Row>
+            <Row>
               <CreatePlayer updatePlayers={this.updatePlayers.bind(this)}/>
             </Row>
             <Row>
@@ -104,7 +113,7 @@ class Dashboard extends Component {
           <Row>
             <Col size="md-6">
               <h2>Play Teams</h2>
-              <TeamList users={this.state.users}/>
+              <TeamList users={this.state.users} updateMatch={this.updateMatchScore.bind(this)} />
             </Col>
           </Row>
         </Container>

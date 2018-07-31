@@ -12,6 +12,9 @@ module.exports = function(sequelize, DataTypes) {
       unique: {
         msg: 'That player\'s already been taken!'
       }
+    },
+    strength: {
+      type: DataTypes.INTEGER
     }
   }, {
     tableName: 'players'

@@ -44,7 +44,7 @@ class NewPlayer extends Component {
           return this.setState({ errors })
         }
         this.props.updatePlayers()
-        history.push('/')
+      //  history.push('/')
       })
       .catch(console.error)
   }
